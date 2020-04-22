@@ -26,12 +26,16 @@
       get_url:
         url: https://github.com/prometheus/node_exporter/releases/download/v{{ node_exporter_version }}/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
         dest: /tmp
-    - name: unarchive node exporter
+    - name: Extract node exporter
       unarchive:
         remote_src: yes
         src: /tmp/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
-        dest: /opt/prometheus_exporters
+        dest: /tmp
         exclude: LICENSE,NOTICE
+    - name: Move node-exporter
+      move:
+        src: /tmp/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter
+	dest: /opt/prometheus_exporters/node_exporter
     - name: Change node_exporter file permission
       file:
         path: /opt/prometheus_exporters/node_exporter 
