@@ -31,20 +31,13 @@
         remote_src: yes
         src: /tmp/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
         dest: /tmp
-        exclude: LICENSE,NOTICE
     - name: Move node-exporter
-      move:
-        src: /tmp/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter
-	dest: /opt/prometheus_exporters/node_exporter
+      command: mv /tmp/node_exporter-{{ node_exporter_version }}.linux-amd64/node_exporter /opt/prometheus_exporters/node_exporter
     - name: Change node_exporter file permission
       file:
-        path: /opt/prometheus_exporters/node_exporter 
+        path: /opt/prometheus_exporters/node_exporter
         owner: "{{ exporter_svc_id }}"
         group: "{{ exporter_svc_id }}"
-    - name: download node_exporter.service
-      get_url:
-        url: https://raw.githubusercontent.com/theonelabtorulethemall/plab/master/Exporter_Service/node_exporter.service
-        dest: /opt/prometheus_exporters/node_exporter.service
     - name: install unit file to systemd
       template:
         src: /opt/prometheus_exporters/node_exporter.service
