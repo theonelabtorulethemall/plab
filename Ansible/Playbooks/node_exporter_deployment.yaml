@@ -1,6 +1,6 @@
 ---
 - hosts: all
-  remote_user: plab.ansible
+  become: yes
   vars:
     node_exporter_version: 0.18.1
     exporter_svc_id: prom-exporter.svc
@@ -31,6 +31,7 @@
         remote_src: yes
         src: /opt/prometheus_exporters/node_exporter-{{ node_exporter_version }}.linux-amd64.tar.gz
         dest: /opt/prometheus_exporters
+        exclude: LICENSE,NOTICE
     - name: Change node_exporter file permission
       file:
         path: /opt/prometheus_exporters/node_exporter 
