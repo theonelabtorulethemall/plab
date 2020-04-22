@@ -4,8 +4,8 @@ Wants=network-online.target
 After=network-online.target
 
 [Service]
-User=node-exporter.prometheus
-Group=node-exporter.prometheus
+User=prom-exporter.svc
+Group=prom-exporter.svc
 Type=simple
 ExecStart=/opt/prometheus_exporters/node_exporter
 
