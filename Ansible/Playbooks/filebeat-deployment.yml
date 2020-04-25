@@ -12,7 +12,8 @@
           - type: log
             enabled: true
             paths:
-              - /var/log/*.log      
+              - /var/log/*.log
+  tasks:
     - name: Load filebeat index template in Elasticsearch
       command: /usr/share/filebeat/bin/filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["plabmonv002:9200"]'
     - name: Unalias RM
