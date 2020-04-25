@@ -13,19 +13,18 @@
             enabled: true
             paths:
               - /var/log/*.log      
-        config:
-            modules:
-               path: ${path.config}/modules.d/*.yml
-               reload.enabled: false     
-      setup:        
-        template:      
-            settings:  
-               index.number_of_shards: 1
-      output:
-        logstash:  
-            hosts: ["plabmonv002:5044"]             
-      processors:
-        - add_host_metadata: ~
-        - add_cloud_metadata: ~
-        - add_docker_metadata: ~
-        - add_kubernetes_metadata: ~
+
+  tasks:
+    - name: download node exporter
+      get_url:
+        url: https://raw.githubusercontent.com/theonelabtorulethemall/plab/master/Beats/filebeat.yml
+        dest: /tmp  
+    - name: Delete existing filebeat.yml
+      command: rm -f /etc/filebeat.yml
+    - name: Move new filebeat.yml
+      command: mv /tmp/filebeat.yml /etc/filebeat.yml
+    - name: Restart filebeat service
+      systemd:
+        enabled: yes
+        state: restarted
+        name: filebeat.service
