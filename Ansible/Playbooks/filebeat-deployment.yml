@@ -12,19 +12,4 @@
           - type: log
             enabled: true
             paths:
-              - /var/log/*.log      
-
-  tasks:
-    - name: download node exporter
-      get_url:
-        url: https://raw.githubusercontent.com/theonelabtorulethemall/plab/master/Beats/filebeat.yml
-        dest: /tmp  
-    - name: Delete existing filebeat.yml
-      command: rm -f /etc/filebeat.yml
-    - name: Move new filebeat.yml
-      command: mv /tmp/filebeat.yml /etc/filebeat.yml
-    - name: Restart filebeat service
-      systemd:
-        enabled: yes
-        state: restarted
-        name: filebeat.service
+              - /var/log/*.log
