@@ -12,20 +12,20 @@
           - type: log
             enabled: true
             paths:
-              - /var/log/*.log
-  tasks:
-    - name: Load filebeat index template in Elasticsearch
-      command: /usr/share/filebeat/bin/filebeat setup --index-management -E output.logstash.enabled=false -E 'output.elasticsearch.hosts=["plabmonv002:9200"]'
-    - name: Unalias RM
-      command: unalias rm
-    - name: Delete default filebeat configuration file
-      command: rm -f /etc/filebeat/filebeat.yml
-    - name: Install plab filebeat configuration file
-      template:
-        src: /home/plab.ansible/plab_git/plab/Beats/filebeat.yml
-        dest: /etc/filebeat/filebeat.yml
-    - name: restart filebeat
-      systemd:
-        enabled: yes
-        state: restarted
-        name: filebeat.service
+              - /var/log/*.log      
+        config:
+            modules:
+               path: ${path.config}/modules.d/*.yml
+               reload.enabled: false     
+      setup:        
+        template:      
+            settings:  
+               index.number_of_shards: 1
+      output:
+        logstash:  
+            hosts: ["plabmonv002:5044"]             
+      processors:
+        - add_host_metadata: ~
+        - add_cloud_metadata: ~
+        - add_docker_metadata: ~
+        - add_kubernetes_metadata: ~
