@@ -15,7 +15,6 @@
         name: mysqld_exporter
         password: dothislab!!
         priv: "*.*:REPLICATION CLIENT"
-        no_log: true
         state: present
     - name: create group
       group:
