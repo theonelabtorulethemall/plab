@@ -6,7 +6,6 @@ After=network-online.target
 [Service]
 User=prom-exporter.svc
 Group=prom-exporter.svc
-Environment="DATA_SOURCE_NAME=mysqld_exporter:dothislab!!@unix(/var/lib/mysql/mysql.sock)"
 Type=simple
 ExecStart=/opt/prometheus_exporters/mysqld_exporter
  
