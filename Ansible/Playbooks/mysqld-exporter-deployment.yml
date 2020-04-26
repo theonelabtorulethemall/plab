@@ -9,6 +9,7 @@
     - name: test connection
       ping:
     - name: Create mysqld exporter database user
+      no_log: true
       mysql_user:
         login_user: root
         login_password: dothislab!!
