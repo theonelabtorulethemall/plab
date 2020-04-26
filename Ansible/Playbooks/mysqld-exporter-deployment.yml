@@ -1,12 +1,21 @@
 ---
 - hosts: dbservers
   become: yes
+  
   vars:
     mysqld_exporter_version: 0.12.1
     exporter_svc_id: prom-exporter.svc
   tasks:
     - name: test connection
       ping:
+    - name: Create mysqld exporter database user
+      mysql_user:
+        login_user: root
+        login_password: 123456
+        name: mysqld_exporter
+        password: dothislab!!
+        priv: "*.*:REPLICATION CLIENT"
+        state: present
     - name: create group
       group:
         name: prom-exporter.svc
